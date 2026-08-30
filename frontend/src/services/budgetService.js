@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/budgets";
+const API_URL =
+  `${import.meta.env.VITE_API_URL}/api/budgets`;
 
 export const createOrUpdateBudget = (budget) =>
   axios.post(API_URL, budget);

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_URL =
-  "http://localhost:8080/api/shared-bills";
+  `${import.meta.env.VITE_API_URL}/api/shared-bills`;
 
 export const createSharedBill = (bill) => {
   return axios.post(API_URL, bill);

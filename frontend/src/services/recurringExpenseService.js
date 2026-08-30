@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API_URL =
-  "http://localhost:8080/api/recurring-expenses";
+  `${import.meta.env.VITE_API_URL}/api/recurring-expenses`;
 
 
 export const getRecurringExpenses =
