@@ -324,9 +324,9 @@ The React frontend handles the user interface and sends requests to the backend.
 
 The Spring Boot application processes the requests and communicates with the MySQL database using Spring Data JPA and Hibernate.
 
-Main Modules
+### Main Modules
 
-The project is organized around the following modules:
+## The project is organized around the following modules:
 
 Expense Management
 Budget Tracking
@@ -341,7 +341,11 @@ Reports and Analytics
 PDF Report Generation
 REST APIs
 Expense APIs
+
+
 Method	Endpoint	Description
+-----------------------------
+
 POST	/api/expenses	Create a new expense
 GET	/api/expenses	Get all expenses
 GET	/api/expenses/{id}	Get an expense by ID
@@ -349,7 +353,10 @@ PUT	/api/expenses/{id}	Update an expense
 DELETE	/api/expenses/{id}	Delete an expense
 GET	/api/expenses/search?keyword=	Search expenses
 GET	/api/expenses/category/{category}	Filter expenses by category
+
+
 Monthly Summary API
+--------------------
 Method	Endpoint	Description
 GET	/api/summary/monthly?month={month}&year={year}	Get monthly expense summary
 
@@ -373,18 +380,19 @@ expense_tracker_db
 
 The database stores information related to:
 
-Expenses
-Monthly budgets
-Members
-Shared bills
-Bill participation and splitting
-Recurring expenses
+### Expenses
 
-Spring Data JPA and Hibernate are used to manage database operations.
+1. Monthly budgets
+2. Members
+3. Shared bills
+4. Bill participation and splitting
+5. Recurring expenses
 
-Running the Project Locally
+-> Spring Data JPA and Hibernate are used to manage database operations.
+-> Running the Project Locally
+
 Prerequisites
-
+-------------
 Before running the project, make sure the following are installed:
 
 Java 21
@@ -392,12 +400,15 @@ MySQL
 Maven
 Node.js
 npm
+
+
 Backend Setup
+--------------
 1. Create the Database
 
 Create a MySQL database:
-
 CREATE DATABASE expense_tracker_db;
+
 2. Configure Database Properties
 
 Open:
@@ -453,6 +464,7 @@ Recharts is used for data visualization and analytics.
 jsPDF and jspdf-autotable are used for generating PDF reports.
 
 Development Approach
+--------------------
 
 The project was developed using a module-based approach.
 
@@ -485,6 +497,7 @@ UI Improvements
 This approach helped keep the project organized and made it easier to develop and test individual modules.
 
 Development Progress
+--------------------
  Project Setup
  Expense Management
  Expense Search
@@ -502,11 +515,15 @@ Development Progress
  Responsive UI Improvements
  Complete End-to-End Testing
  Production Deployment
+
+
 Project Goal
+-------------
 
 The goal of Smart Expense Tracker is to provide a practical application for managing both personal and shared expenses.
 
 The application helps users:
+----------------------------
 
 Track daily spending
 Organize expenses by category
@@ -521,8 +538,9 @@ Generate expense reports
 The project also demonstrates the integration of a React frontend with a Spring Boot backend and MySQL database using REST APIs.
 
 Future Improvements
+---------------------
 
-Possible future improvements include:
+* Possible future improvements include:
 
 User authentication and authorization
 Individual user accounts
@@ -537,15 +555,18 @@ Automated testing
 Improved error handling and validation
 Author
 
-Developed as a full-stack application using:
+Developed as a full-stack application using
+--------------------------------------------
 
 Java | Spring Boot | React | MySQL | REST APIs
 
 Project Status
+--------------
 
 The core features of the application have been implemented.
 
 The remaining work mainly includes:
+-----------------------------------
 
 Final end-to-end testing
 Production deployment
