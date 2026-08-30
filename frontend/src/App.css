@@ -230,3 +230,171 @@ button:hover {
 .settled-amount {
   font-weight: bold;
 }
+
+
+/* =========================
+   ANALYTICS DASHBOARD
+========================= */
+
+.analytics-dashboard {
+  margin-top: 20px;
+}
+
+
+.analytics-dashboard h3 {
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    );
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+
+.analytics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+
+.analytics-item {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+
+.analytics-item p {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+
+.analytics-progress-container {
+  width: 100%;
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+
+.analytics-progress-bar {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+
+/* =========================
+   YEARLY SUMMARY
+========================= */
+
+.yearly-summary {
+  margin-top: 20px;
+}
+
+
+.yearly-month-list {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    );
+  gap: 12px;
+  margin-top: 15px;
+}
+
+
+.yearly-month-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+
+/* =========================
+   MONTHLY SUMMARY
+========================= */
+
+.monthly-summary {
+  margin-top: 20px;
+}
+
+
+.category-summary {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(180px, 1fr)
+    );
+  gap: 12px;
+  margin-top: 15px;
+}
+
+
+.category-summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+
+/* =========================
+   SUMMARY FILTERS
+========================= */
+
+.summary-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+
+.summary-filters select,
+.summary-filters input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 600px) {
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .yearly-month-list {
+    grid-template-columns: 1fr;
+  }
+
+
+  .category-summary {
+    grid-template-columns: 1fr;
+  }
+
+}
+
