@@ -115,6 +115,26 @@ The budget status is calculated based on the percentage of the budget used:
 * WARNING - 80% or more of the budget is used
 * EXCEEDED - 100% or more of the budget is used
 
+### Bill Splitting
+
+Users can:
+
+* Add members
+* Prevent duplicate members
+* Delete unused members
+* Prevent deletion of members used in shared bills
+* Create shared bills
+* Select the member who paid the bill
+* Select multiple participants
+* Split bills equally among participants
+* View each participant's share
+* View who owes money
+* View who should receive money
+* Calculate settlements
+* View "Who Owes Whom"
+* Update shared bills
+* Delete shared bills
+
 ## 📂 Supported Categories
 
 * Food

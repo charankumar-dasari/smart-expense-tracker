@@ -218,3 +218,15 @@ button:hover {
   }
 
 }
+
+.receive-amount {
+  font-weight: bold;
+}
+
+.owe-amount {
+  font-weight: bold;
+}
+
+.settled-amount {
+  font-weight: bold;
+}

@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -5,22 +6,76 @@ import BudgetTracker from "./components/BudgetTracker";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
 
+import MemberManager from "./components/MemberManager";
+import SharedBillForm from "./components/SharedBillForm";
+import SharedBillList from "./components/SharedBillList";
+
 import {
   getExpenses,
   searchExpenses,
   getExpensesByCategory
 } from "./services/expenseService";
 
+
 function App() {
 
+  /* =========================
+     EXPENSE STATES
+  ========================= */
+
   const [expenses, setExpenses] = useState([]);
+
   const [loading, setLoading] = useState(true);
-  const [selectedExpense, setSelectedExpense] = useState(null);
 
-  const [budgetRefreshKey, setBudgetRefreshKey] = useState(0);
+  const [
+    selectedExpense,
+    setSelectedExpense
+  ] = useState(null);
 
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+
+  /* =========================
+     BILL EDIT STATE
+  ========================= */
+
+  const [
+    selectedBill,
+    setSelectedBill
+  ] = useState(null);
+
+
+  /* =========================
+     REFRESH STATES
+  ========================= */
+
+  const [
+    budgetRefreshKey,
+    setBudgetRefreshKey
+  ] = useState(0);
+
+  const [
+    billRefreshKey,
+    setBillRefreshKey
+  ] = useState(0);
+
+
+  /* =========================
+     SEARCH & FILTER STATES
+  ========================= */
+
+  const [
+    searchKeyword,
+    setSearchKeyword
+  ] = useState("");
+
+  const [
+    selectedCategory,
+    setSelectedCategory
+  ] = useState("");
+
+
+  /* =========================
+     LOAD ALL EXPENSES
+  ========================= */
 
   const loadExpenses = async () => {
 
@@ -28,7 +83,8 @@ function App() {
 
       setLoading(true);
 
-      const response = await getExpenses();
+      const response =
+        await getExpenses();
 
       setExpenses(response.data);
 
@@ -41,13 +97,24 @@ function App() {
       setLoading(false);
 
     }
+
   };
+
+
+  /* =========================
+     LOAD EXPENSES ON START
+  ========================= */
 
   useEffect(() => {
 
     loadExpenses();
 
   }, []);
+
+
+  /* =========================
+     SEARCH EXPENSES
+  ========================= */
 
   const handleSearch = async (value) => {
 
@@ -75,97 +142,228 @@ function App() {
       console.error(error);
 
     }
+
   };
 
-  const handleCategoryFilter = async (category) => {
 
-    setSelectedCategory(category);
+  /* =========================
+     FILTER EXPENSES
+  ========================= */
 
-    setSearchKeyword("");
+  const handleCategoryFilter =
+    async (category) => {
 
-    if (!category) {
+      setSelectedCategory(category);
 
-      loadExpenses();
+      setSearchKeyword("");
 
-      return;
+      if (!category) {
 
-    }
+        loadExpenses();
 
-    try {
+        return;
 
-      const response =
-        await getExpensesByCategory(category);
+      }
 
-      setExpenses(response.data);
+      try {
 
-    } catch (error) {
+        const response =
+          await getExpensesByCategory(
+            category
+          );
 
-      console.error(error);
+        setExpenses(response.data);
 
-    }
-  };
+      } catch (error) {
 
-  const clearSelection = () => {
+        console.error(error);
+
+      }
+
+    };
+
+
+  /* =========================
+     CLEAR EXPENSE EDIT
+  ========================= */
+
+  const clearExpenseSelection = () => {
 
     setSelectedExpense(null);
 
   };
 
+
+  /* =========================
+     CLEAR BILL EDIT
+  ========================= */
+
+  const clearBillSelection = () => {
+
+    setSelectedBill(null);
+
+  };
+
+
   return (
 
     <div className="app">
 
+
+      {/* =========================
+          HEADER
+      ========================= */}
+
       <header>
 
-        <h1>💰 Smart Expense Tracker</h1>
+        <h1>
+          💰 Smart Expense Tracker
+        </h1>
 
         <p>
-          Track your spending. Control your budget.
+          Track your spending.
+          Control your budget.
         </p>
 
       </header>
 
+
       <main>
 
-        {/* Budget Module */}
+
+        {/* =========================
+            BUDGET MODULE
+        ========================= */}
+
         <BudgetTracker
           refreshKey={budgetRefreshKey}
         />
 
-        {/* Expense Form */}
+
+        {/* =========================
+            MEMBER MANAGEMENT
+        ========================= */}
+
+        <MemberManager />
+
+
+        {/* =========================
+            CREATE / EDIT SHARED BILL
+        ========================= */}
+
+        <SharedBillForm
+
+          selectedBill={selectedBill}
+
+          onSuccess={() => {
+
+            setBillRefreshKey(
+              (previous) =>
+                previous + 1
+            );
+
+            setSelectedBill(null);
+
+          }}
+
+          clearSelection={
+            clearBillSelection
+          }
+
+        />
+
+
+        {/* =========================
+            SHARED BILL LIST
+        ========================= */}
+
+        <SharedBillList
+
+          refreshKey={billRefreshKey}
+
+          onEdit={(bill) => {
+
+            setSelectedBill(bill);
+
+            window.scrollTo({
+
+              top: 0,
+
+              behavior: "smooth"
+
+            });
+
+          }}
+
+        />
+
+
+        {/* =========================
+            ADD / EDIT EXPENSE
+        ========================= */}
+
         <ExpenseForm
-          selectedExpense={selectedExpense}
+
+          selectedExpense={
+            selectedExpense
+          }
+
           onSuccess={() => {
 
             loadExpenses();
 
             setBudgetRefreshKey(
-              (previous) => previous + 1
+              (previous) =>
+                previous + 1
             );
 
           }}
-          clearSelection={clearSelection}
+
+          clearSelection={
+            clearExpenseSelection
+          }
+
         />
 
-        {/* Search and Filter */}
+
+        {/* =========================
+            SEARCH & FILTER
+        ========================= */}
+
         <div className="card filters">
 
-          <h2>Search & Filter</h2>
+          <h2>
+            🔍 Search & Filter
+          </h2>
+
 
           <input
+
             type="text"
+
             placeholder="Search expense..."
+
             value={searchKeyword}
+
             onChange={(e) =>
-              handleSearch(e.target.value)
+              handleSearch(
+                e.target.value
+              )
             }
+
           />
 
+
           <select
+
             value={selectedCategory}
+
             onChange={(e) =>
-              handleCategoryFilter(e.target.value)
+              handleCategoryFilter(
+                e.target.value
+              )
             }
+
           >
 
             <option value="">
@@ -208,18 +406,34 @@ function App() {
 
         </div>
 
-        {/* Expense List */}
+
+        {/* =========================
+            EXPENSE LIST
+        ========================= */}
+
         <ExpenseList
+
           expenses={expenses}
+
           loading={loading}
+
           onEdit={setSelectedExpense}
-          refreshExpenses={loadExpenses}
+
+          refreshExpenses={
+            loadExpenses
+          }
+
         />
+
 
       </main>
 
     </div>
+
   );
+
 }
 
+
 export default App;
+
