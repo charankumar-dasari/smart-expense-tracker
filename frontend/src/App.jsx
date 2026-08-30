@@ -10,6 +10,9 @@ import MemberManager from "./components/MemberManager";
 import SharedBillForm from "./components/SharedBillForm";
 import SharedBillList from "./components/SharedBillList";
 
+import RecurringExpenseForm from "./components/RecurringExpenseForm";
+import RecurringExpenseList from "./components/RecurringExpenseList";
+
 import {
   getExpenses,
   searchExpenses,
@@ -19,13 +22,11 @@ import {
 
 function App() {
 
-  /* =========================
-     EXPENSE STATES
-  ========================= */
+  const [expenses, setExpenses] =
+    useState([]);
 
-  const [expenses, setExpenses] = useState([]);
-
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] =
+    useState(true);
 
   const [
     selectedExpense,
@@ -33,24 +34,23 @@ function App() {
   ] = useState(null);
 
 
-  /* =========================
-     BILL EDIT STATE
-  ========================= */
-
   const [
     selectedBill,
     setSelectedBill
   ] = useState(null);
 
 
-  /* =========================
-     REFRESH STATES
-  ========================= */
+  const [
+    selectedRecurringExpense,
+    setSelectedRecurringExpense
+  ] = useState(null);
+
 
   const [
     budgetRefreshKey,
     setBudgetRefreshKey
   ] = useState(0);
+
 
   const [
     billRefreshKey,
@@ -58,14 +58,17 @@ function App() {
   ] = useState(0);
 
 
-  /* =========================
-     SEARCH & FILTER STATES
-  ========================= */
+  const [
+    recurringRefreshKey,
+    setRecurringRefreshKey
+  ] = useState(0);
+
 
   const [
     searchKeyword,
     setSearchKeyword
   ] = useState("");
+
 
   const [
     selectedCategory,
@@ -73,9 +76,7 @@ function App() {
   ] = useState("");
 
 
-  /* =========================
-     LOAD ALL EXPENSES
-  ========================= */
+  /* LOAD EXPENSES */
 
   const loadExpenses = async () => {
 
@@ -101,10 +102,6 @@ function App() {
   };
 
 
-  /* =========================
-     LOAD EXPENSES ON START
-  ========================= */
-
   useEffect(() => {
 
     loadExpenses();
@@ -112,43 +109,40 @@ function App() {
   }, []);
 
 
-  /* =========================
-     SEARCH EXPENSES
-  ========================= */
+  /* SEARCH */
 
-  const handleSearch = async (value) => {
+  const handleSearch =
+    async (value) => {
 
-    setSearchKeyword(value);
+      setSearchKeyword(value);
 
-    setSelectedCategory("");
+      setSelectedCategory("");
 
-    if (!value.trim()) {
+      if (!value.trim()) {
 
-      loadExpenses();
+        loadExpenses();
 
-      return;
+        return;
 
-    }
+      }
 
-    try {
+      try {
 
-      const response =
-        await searchExpenses(value);
+        const response =
+          await searchExpenses(value);
 
-      setExpenses(response.data);
+        setExpenses(response.data);
 
-    } catch (error) {
+      } catch (error) {
 
-      console.error(error);
+        console.error(error);
 
-    }
+      }
 
-  };
+    };
 
 
-  /* =========================
-     FILTER EXPENSES
-  ========================= */
+  /* CATEGORY FILTER */
 
   const handleCategoryFilter =
     async (category) => {
@@ -183,36 +177,9 @@ function App() {
     };
 
 
-  /* =========================
-     CLEAR EXPENSE EDIT
-  ========================= */
-
-  const clearExpenseSelection = () => {
-
-    setSelectedExpense(null);
-
-  };
-
-
-  /* =========================
-     CLEAR BILL EDIT
-  ========================= */
-
-  const clearBillSelection = () => {
-
-    setSelectedBill(null);
-
-  };
-
-
   return (
 
     <div className="app">
-
-
-      {/* =========================
-          HEADER
-      ========================= */}
 
       <header>
 
@@ -231,25 +198,19 @@ function App() {
       <main>
 
 
-        {/* =========================
-            BUDGET MODULE
-        ========================= */}
+        {/* BUDGET */}
 
         <BudgetTracker
           refreshKey={budgetRefreshKey}
         />
 
 
-        {/* =========================
-            MEMBER MANAGEMENT
-        ========================= */}
+        {/* MEMBER MANAGEMENT */}
 
         <MemberManager />
 
 
-        {/* =========================
-            CREATE / EDIT SHARED BILL
-        ========================= */}
+        {/* SHARED BILL */}
 
         <SharedBillForm
 
@@ -266,16 +227,12 @@ function App() {
 
           }}
 
-          clearSelection={
-            clearBillSelection
+          clearSelection={() =>
+            setSelectedBill(null)
           }
 
         />
 
-
-        {/* =========================
-            SHARED BILL LIST
-        ========================= */}
 
         <SharedBillList
 
@@ -284,6 +241,53 @@ function App() {
           onEdit={(bill) => {
 
             setSelectedBill(bill);
+
+          }}
+
+        />
+
+
+        {/* RECURRING EXPENSE */}
+
+        <RecurringExpenseForm
+
+          selectedExpense={
+            selectedRecurringExpense
+          }
+
+          onSuccess={() => {
+
+            setRecurringRefreshKey(
+              (previous) =>
+                previous + 1
+            );
+
+            setSelectedRecurringExpense(
+              null
+            );
+
+          }}
+
+          clearSelection={() =>
+            setSelectedRecurringExpense(
+              null
+            )
+          }
+
+        />
+
+
+        <RecurringExpenseList
+
+          refreshKey={
+            recurringRefreshKey
+          }
+
+          onEdit={(expense) => {
+
+            setSelectedRecurringExpense(
+              expense
+            );
 
             window.scrollTo({
 
@@ -298,9 +302,7 @@ function App() {
         />
 
 
-        {/* =========================
-            ADD / EDIT EXPENSE
-        ========================= */}
+        {/* EXPENSE FORM */}
 
         <ExpenseForm
 
@@ -319,16 +321,14 @@ function App() {
 
           }}
 
-          clearSelection={
-            clearExpenseSelection
+          clearSelection={() =>
+            setSelectedExpense(null)
           }
 
         />
 
 
-        {/* =========================
-            SEARCH & FILTER
-        ========================= */}
+        {/* SEARCH & FILTER */}
 
         <div className="card filters">
 
@@ -407,9 +407,7 @@ function App() {
         </div>
 
 
-        {/* =========================
-            EXPENSE LIST
-        ========================= */}
+        {/* EXPENSE LIST */}
 
         <ExpenseList
 
@@ -417,7 +415,9 @@ function App() {
 
           loading={loading}
 
-          onEdit={setSelectedExpense}
+          onEdit={
+            setSelectedExpense
+          }
 
           refreshExpenses={
             loadExpenses

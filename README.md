@@ -135,6 +135,19 @@ Users can:
 * Update shared bills
 * Delete shared bills
 
+### Recurring Expense Management
+
+Users can:
+
+* Create recurring expenses
+* Select Daily, Weekly, Monthly, or Yearly frequency
+* Track next due dates
+* View all recurring expenses
+* Update recurring expenses
+* Activate or deactivate recurring expenses
+* Delete recurring expenses
+* Manage recurring payments such as rent, subscriptions, bills, and EMIs
+
 ## 📂 Supported Categories
 
 * Food
