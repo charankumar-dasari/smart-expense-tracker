@@ -13,35 +13,52 @@ const initialForm = {
   description: ""
 };
 
-function ExpenseForm({ selectedExpense, onSuccess, clearSelection }) {
+function ExpenseForm({
+  selectedExpense,
+  onSuccess,
+  clearSelection
+}) {
 
-  const [expense, setExpense] = useState(initialForm);
-  const [loading, setLoading] = useState(false);
+  const [expense, setExpense] =
+    useState(initialForm);
+
+  const [loading, setLoading] =
+    useState(false);
 
   useEffect(() => {
+
     if (selectedExpense) {
+
       setExpense({
         ...selectedExpense,
         amount: selectedExpense.amount
       });
+
     } else {
+
       setExpense(initialForm);
+
     }
+
   }, [selectedExpense]);
 
   const handleChange = (e) => {
+
     const { name, value } = e.target;
 
     setExpense({
       ...expense,
       [name]: value
     });
+
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
+
       setLoading(true);
 
       const expenseData = {
@@ -50,29 +67,52 @@ function ExpenseForm({ selectedExpense, onSuccess, clearSelection }) {
       };
 
       if (selectedExpense) {
-        await updateExpense(selectedExpense.id, expenseData);
+
+        await updateExpense(
+          selectedExpense.id,
+          expenseData
+        );
+
         alert("Expense updated successfully!");
+
       } else {
+
         await createExpense(expenseData);
+
         alert("Expense added successfully!");
+
       }
 
       setExpense(initialForm);
+
       clearSelection();
+
+      // Refresh expense list
+      // and budget summary
       onSuccess();
 
     } catch (error) {
+
       console.error(error);
+
       alert("Something went wrong!");
+
     } finally {
+
       setLoading(false);
+
     }
+
   };
 
   return (
+
     <div className="card">
+
       <h2>
-        {selectedExpense ? "Edit Expense" : "Add New Expense"}
+        {selectedExpense
+          ? "Edit Expense"
+          : "Add New Expense"}
       </h2>
 
       <form onSubmit={handleSubmit}>
@@ -102,14 +142,39 @@ function ExpenseForm({ selectedExpense, onSuccess, clearSelection }) {
           value={expense.category}
           onChange={handleChange}
         >
-          <option>Food</option>
-          <option>Travel</option>
-          <option>Shopping</option>
-          <option>Rent</option>
-          <option>Entertainment</option>
-          <option>Bills</option>
-          <option>Health</option>
-          <option>Other</option>
+
+          <option value="Food">
+            Food
+          </option>
+
+          <option value="Travel">
+            Travel
+          </option>
+
+          <option value="Shopping">
+            Shopping
+          </option>
+
+          <option value="Rent">
+            Rent
+          </option>
+
+          <option value="Entertainment">
+            Entertainment
+          </option>
+
+          <option value="Bills">
+            Bills
+          </option>
+
+          <option value="Health">
+            Health
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
         </select>
 
         <select
@@ -117,9 +182,19 @@ function ExpenseForm({ selectedExpense, onSuccess, clearSelection }) {
           value={expense.currency}
           onChange={handleChange}
         >
-          <option value="INR">INR ₹</option>
-          <option value="USD">USD $</option>
-          <option value="EUR">EUR €</option>
+
+          <option value="INR">
+            INR ₹
+          </option>
+
+          <option value="USD">
+            USD $
+          </option>
+
+          <option value="EUR">
+            EUR €
+          </option>
+
         </select>
 
         <input
@@ -137,28 +212,42 @@ function ExpenseForm({ selectedExpense, onSuccess, clearSelection }) {
           onChange={handleChange}
         />
 
-        <button type="submit" disabled={loading}>
+        <button
+          type="submit"
+          disabled={loading}
+        >
+
           {loading
             ? "Saving..."
             : selectedExpense
             ? "Update Expense"
             : "Add Expense"}
+
         </button>
 
         {selectedExpense && (
+
           <button
             type="button"
             onClick={() => {
+
               setExpense(initialForm);
+
               clearSelection();
+
             }}
           >
+
             Cancel Edit
+
           </button>
+
         )}
 
       </form>
+
     </div>
+
   );
 }
 

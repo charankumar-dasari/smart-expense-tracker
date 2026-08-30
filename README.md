@@ -1,14 +1,16 @@
 # Smart Expense Tracker & Bill Splitting System
 
-A full-stack web application for managing personal expenses, tracking budgets, splitting bills with friends, and analyzing spending patterns.
+A full-stack web application for managing personal expenses, tracking monthly budgets, splitting bills with friends, and analyzing spending patterns.
 
 ## 🚀 Project Status
 
-Currently implementing the project using an incremental module-based development approach.
+Currently developing the project using an incremental module-based development approach.
 
-### Completed Modules
+The project is being built module by module. Each completed module is tested, documented, committed to GitHub, and then the next module is started.
 
-#### ✅ Expense Management Module
+## ✅ Completed Modules
+
+### Expense Management Module
 
 * Add new expenses
 * View all expenses
@@ -22,6 +24,20 @@ Currently implementing the project using an incremental module-based development
 * MySQL database integration
 * Spring Boot REST APIs
 * React frontend integration
+
+### Budget Tracking Module
+
+* Create monthly budget
+* Update existing monthly budget
+* Select month and year
+* Calculate total expenses for the selected month
+* Calculate remaining budget
+* Calculate budget usage percentage
+* SAFE budget status
+* WARNING budget status
+* EXCEEDED budget status
+* Budget progress bar
+* Budget summary updates after adding or updating expenses
 
 ## 🛠️ Technology Stack
 
@@ -45,10 +61,11 @@ Currently implementing the project using an incremental module-based development
 
 ```text
 smart-expense-tracker/
-│
+
 ├── backend/
 │   └── Spring Boot REST API
 │       ├── controller/
+│       ├── dto/
 │       ├── entity/
 │       ├── repository/
 │       └── service/
@@ -79,7 +96,26 @@ Users can:
 * Update existing expenses
 * Delete expenses
 
-### Supported Categories
+### Budget Tracking
+
+Users can:
+
+* Set a monthly budget
+* Select month and year
+* Update an existing budget
+* View total monthly budget
+* View total amount spent
+* View remaining budget
+* View budget usage percentage
+* Check budget status
+
+The budget status is calculated based on the percentage of the budget used:
+
+* SAFE - Less than 80% of the budget is used
+* WARNING - 80% or more of the budget is used
+* EXCEEDED - 100% or more of the budget is used
+
+## 📂 Supported Categories
 
 * Food
 * Travel
@@ -90,7 +126,7 @@ Users can:
 * Health
 * Other
 
-### Supported Currencies
+## 💱 Supported Currencies
 
 * INR
 * USD
@@ -98,15 +134,25 @@ Users can:
 
 ## 🔌 Current REST APIs
 
-| Method | Endpoint                            | Description        |
-| ------ | ----------------------------------- | ------------------ |
-| POST   | `/api/expenses`                     | Create expense     |
-| GET    | `/api/expenses`                     | Get all expenses   |
-| GET    | `/api/expenses/{id}`                | Get expense by ID  |
-| PUT    | `/api/expenses/{id}`                | Update expense     |
-| DELETE | `/api/expenses/{id}`                | Delete expense     |
-| GET    | `/api/expenses/search?keyword=`     | Search expenses    |
-| GET    | `/api/expenses/category/{category}` | Filter by category |
+### Expense APIs
+
+| Method | Endpoint                            | Description                 |
+| ------ | ----------------------------------- | --------------------------- |
+| POST   | `/api/expenses`                     | Create expense              |
+| GET    | `/api/expenses`                     | Get all expenses            |
+| GET    | `/api/expenses/{id}`                | Get expense by ID           |
+| PUT    | `/api/expenses/{id}`                | Update expense              |
+| DELETE | `/api/expenses/{id}`                | Delete expense              |
+| GET    | `/api/expenses/search?keyword=`     | Search expenses             |
+| GET    | `/api/expenses/category/{category}` | Filter expenses by category |
+
+### Budget APIs
+
+| Method | Endpoint                                         | Description             |
+| ------ | ------------------------------------------------ | ----------------------- |
+| POST   | `/api/budgets`                                   | Create or update budget |
+| GET    | `/api/budgets/summary?month={month}&year={year}` | Get budget summary      |
+| DELETE | `/api/budgets/{id}`                              | Delete budget           |
 
 ## 💾 Database
 
@@ -114,23 +160,34 @@ Database Name:
 
 `expense_tracker_db`
 
-Current main table:
+Current tables:
 
-`expenses`
+* `expenses`
+* `budgets`
+
+The `expenses` table stores personal expense details such as title, amount, category, currency, date, and description.
+
+The `budgets` table stores the monthly budget amount along with the selected month and year.
 
 ## ▶️ How to Run the Backend
 
-1. Create the MySQL database:
+### 1. Create the MySQL database
 
 ```sql
 CREATE DATABASE expense_tracker_db;
 ```
 
-2. Update the database credentials in:
+### 2. Update database credentials
 
-`backend/src/main/resources/application.properties`
+Update the database username and password in:
 
-3. Run the Spring Boot application:
+```text
+backend/src/main/resources/application.properties
+```
+
+### 3. Run the Spring Boot application
+
+From the backend directory:
 
 ```bash
 mvnw.cmd spring-boot:run
@@ -160,6 +217,10 @@ Start the application:
 npm run dev
 ```
 
+The frontend will usually run on:
+
+`http://localhost:5173`
+
 ## 📋 Development Process
 
 The project is being developed incrementally using a module-based workflow.
@@ -167,7 +228,7 @@ The project is being developed incrementally using a module-based workflow.
 Each module follows this process:
 
 1. Plan the module requirements
-2. Create the backend entities and database structure
+2. Create backend entities and database structure
 3. Implement repository and service layers
 4. Develop REST APIs
 5. Test backend APIs
@@ -183,7 +244,7 @@ This approach keeps the development process organized and provides a clear Git c
 ## 🔄 Planned Modules
 
 * [x] Expense Management
-* [ ] Budget Tracking
+* [x] Budget Tracking
 * [ ] Bill Splitting
 * [ ] Who Owes Whom Calculation
 * [ ] Recurring Expense Management
@@ -196,4 +257,15 @@ This approach keeps the development process organized and provides a clear Git c
 
 ## 🎯 Project Goal
 
-The goal of this application is to provide a simple and practical system for managing personal finances, tracking expenses, controlling budgets, splitting shared bills, and analyzing spending patterns.
+The goal of this application is to provide a simple and practical system for managing personal finances.
+
+The application will help users:
+
+* Track daily expenses
+* Manage monthly budgets
+* Monitor spending
+* Split bills with friends
+* Calculate who owes whom
+* Analyze spending patterns
+
+The project is being developed as a full-stack application using Java, Spring Boot, MySQL, React, and REST APIs.

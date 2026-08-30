@@ -131,3 +131,90 @@ button:hover {
     margin-top: 10px;
   }
 }
+
+.budget-card {
+  margin-bottom: 25px;
+}
+
+.budget-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.summary-item {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.summary-item span {
+  display: block;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.summary-item strong {
+  font-size: 18px;
+}
+
+.progress-container {
+  width: 100%;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+
+.budget-status {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.safe {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.exceeded {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.no-budget {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+@media (max-width: 700px) {
+
+  .budget-inputs,
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+}
