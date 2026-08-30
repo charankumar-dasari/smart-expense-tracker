@@ -1,11 +1,9 @@
-
 import { useEffect, useState } from "react";
 
 import {
   getMonthlySummary,
   getYearlySummary
 } from "../services/summaryService";
-
 
 function AnalyticsDashboard() {
 
@@ -26,22 +24,12 @@ function AnalyticsDashboard() {
   const [loading, setLoading] =
     useState(false);
 
-
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
+    "January", "February", "March",
+    "April", "May", "June",
+    "July", "August", "September",
+    "October", "November", "December"
   ];
-
 
   const loadAnalytics = async () => {
 
@@ -54,14 +42,9 @@ function AnalyticsDashboard() {
         yearlyResponse
       ] = await Promise.all([
 
-        getMonthlySummary(
-          month,
-          year
-        ),
+        getMonthlySummary(month, year),
 
-        getYearlySummary(
-          year
-        )
+        getYearlySummary(year)
 
       ]);
 
@@ -89,83 +72,59 @@ function AnalyticsDashboard() {
 
   };
 
-
   useEffect(() => {
 
     loadAnalytics();
 
   }, [month, year]);
 
-
   const getHighestCategory = () => {
 
     if (
       !monthlySummary ||
       !monthlySummary.categoryWiseSpending
-    ) {
+    ) return null;
 
-      return null;
+    const entries =
+      Object.entries(
+        monthlySummary.categoryWiseSpending
+      );
 
-    }
-
-    const entries = Object.entries(
-      monthlySummary.categoryWiseSpending
-    );
-
-    if (entries.length === 0) {
-
-      return null;
-
-    }
+    if (!entries.length) return null;
 
     return entries.reduce(
       (highest, current) =>
-
         Number(current[1]) >
         Number(highest[1])
-
           ? current
           : highest
-
     );
 
   };
-
 
   const getHighestMonth = () => {
 
     if (
       !yearlySummary ||
       !yearlySummary.monthlySpending
-    ) {
+    ) return null;
 
-      return null;
+    const entries =
+      Object.entries(
+        yearlySummary.monthlySpending
+      );
 
-    }
-
-    const entries = Object.entries(
-      yearlySummary.monthlySpending
-    );
-
-    if (entries.length === 0) {
-
-      return null;
-
-    }
+    if (!entries.length) return null;
 
     return entries.reduce(
       (highest, current) =>
-
         Number(current[1]) >
         Number(highest[1])
-
           ? current
           : highest
-
     );
 
   };
-
 
   const highestCategory =
     getHighestCategory();
@@ -173,69 +132,96 @@ function AnalyticsDashboard() {
   const highestMonth =
     getHighestMonth();
 
+  const monthlyData =
+    yearlySummary?.monthlySpending
+      ? Object.entries(
+          yearlySummary.monthlySpending
+        )
+      : [];
+
+  const maxMonthlyAmount =
+    Math.max(
+      ...monthlyData.map(
+        ([, amount]) => Number(amount)
+      ),
+      1
+    );
 
   return (
 
-    <div className="card analytics-dashboard">
+    <div className="analytics-dashboard">
 
-      <h2>
-        📊 Reports & Analytics
-      </h2>
+      <div className="analytics-page-header">
 
+        <span className="section-label">
+          FINANCIAL INSIGHTS
+        </span>
 
-      {/* FILTERS */}
+        <h2>
+          Reports & Analytics
+        </h2>
 
-      <div className="summary-filters">
-
-        <select
-          value={month}
-          onChange={(e) =>
-            setMonth(
-              Number(e.target.value)
-            )
-          }
-        >
-
-          {monthNames.map(
-            (monthName, index) => (
-
-              <option
-                key={index}
-                value={index + 1}
-              >
-
-                {monthName}
-
-              </option>
-
-            )
-          )}
-
-        </select>
-
-
-        <input
-          type="number"
-          value={year}
-          min="2020"
-          onChange={(e) =>
-            setYear(
-              Number(e.target.value)
-            )
-          }
-        />
+        <p>
+          Understand your spending patterns
+          and financial activity.
+        </p>
 
       </div>
 
+      <div className="analytics-filter-card">
+
+        <div className="summary-filters">
+
+          <select
+            value={month}
+            onChange={(e) =>
+              setMonth(
+                Number(e.target.value)
+              )
+            }
+          >
+
+            {monthNames.map(
+              (monthName, index) => (
+
+                <option
+                  key={index}
+                  value={index + 1}
+                >
+
+                  {monthName}
+
+                </option>
+
+              )
+            )}
+
+          </select>
+
+          <input
+            type="number"
+            value={year}
+            min="2020"
+            onChange={(e) =>
+              setYear(
+                Number(e.target.value)
+              )
+            }
+          />
+
+        </div>
+
+      </div>
 
       {loading && (
 
-        <p>
+        <div className="analytics-loading">
+
           Loading analytics...
-        </p>
+
+        </div>
 
       )}
-
 
       {!loading &&
         monthlySummary &&
@@ -243,257 +229,320 @@ function AnalyticsDashboard() {
 
         <>
 
+          <section className="analytics-section">
 
-          {/* KEY INSIGHTS */}
+            <div className="analytics-section-header">
 
-          <h3>
-            💡 Spending Insights
-          </h3>
+              <div>
 
+                <span className="section-label">
+                  PERFORMANCE
+                </span>
 
-          <div className="analytics-grid">
+                <h3>
+                  Spending Insights
+                </h3>
 
-
-            <div className="summary-item">
-
-              <span>
-                Highest Spending Category
-              </span>
-
-              <strong>
-
-                {highestCategory
-                  ? highestCategory[0]
-                  : "No Data"}
-
-              </strong>
+              </div>
 
             </div>
 
+            <div className="analytics-insights-grid">
 
-            <div className="summary-item">
+              <div className="insight-card">
 
-              <span>
-                Highest Category Amount
-              </span>
+                <span>
+                  Highest Category
+                </span>
 
-              <strong>
+                <strong>
 
-                ₹
+                  {highestCategory
+                    ? highestCategory[0]
+                    : "No Data"}
 
-                {highestCategory
-                  ? Number(
-                      highestCategory[1]
-                    ).toFixed(2)
-                  : "0.00"}
+                </strong>
 
-              </strong>
+              </div>
+
+              <div className="insight-card">
+
+                <span>
+                  Category Amount
+                </span>
+
+                <strong>
+
+                  ₹
+                  {highestCategory
+                    ? Number(
+                        highestCategory[1]
+                      ).toFixed(2)
+                    : "0.00"}
+
+                </strong>
+
+              </div>
+
+              <div className="insight-card">
+
+                <span>
+                  Highest Month
+                </span>
+
+                <strong>
+
+                  {highestMonth
+                    ? highestMonth[0]
+                    : "No Data"}
+
+                </strong>
+
+              </div>
+
+              <div className="insight-card">
+
+                <span>
+                  Highest Month Amount
+                </span>
+
+                <strong>
+
+                  ₹
+                  {highestMonth
+                    ? Number(
+                        highestMonth[1]
+                      ).toFixed(2)
+                    : "0.00"}
+
+                </strong>
+
+              </div>
 
             </div>
 
+          </section>
 
-            <div className="summary-item">
+          <section className="analytics-section">
 
-              <span>
-                Highest Spending Month
-              </span>
+            <h3>
+              Category-wise Analysis
+            </h3>
 
-              <strong>
+            <div className="category-analysis-grid">
 
-                {highestMonth
-                  ? highestMonth[0]
-                  : "No Data"}
+              {Object.entries(
+                monthlySummary.categoryWiseSpending
+              ).map(
+                ([category, amount]) => {
 
-              </strong>
+                  const percentage =
+                    monthlySummary.totalSpent > 0
+                      ? (
+                          Number(amount) /
+                          Number(
+                            monthlySummary.totalSpent
+                          )
+                        ) * 100
+                      : 0;
 
-            </div>
+                  return (
 
+                    <div
+                      className="category-analysis-card"
+                      key={category}
+                    >
 
-            <div className="summary-item">
+                      <div className="category-analysis-top">
 
-              <span>
-                Highest Month Amount
-              </span>
+                        <strong>
+                          {category}
+                        </strong>
 
-              <strong>
+                        <strong>
 
-                ₹
+                          ₹
+                          {Number(
+                            amount
+                          ).toFixed(2)}
 
-                {highestMonth
-                  ? Number(
-                      highestMonth[1]
-                    ).toFixed(2)
-                  : "0.00"}
+                        </strong>
 
-              </strong>
+                      </div>
 
-            </div>
+                      <div className="analytics-progress-container">
 
+                        <div
+                          className="analytics-progress-bar"
+                          style={{
+                            width:
+                              `${Math.min(
+                                percentage,
+                                100
+                              )}%`
+                          }}
+                        />
 
-          </div>
+                      </div>
 
-
-          {/* CATEGORY ANALYSIS */}
-
-          <h3>
-            🏷️ Category-wise Analysis
-          </h3>
-
-
-          <div className="analytics-list">
-
-            {Object.entries(
-              monthlySummary.categoryWiseSpending
-            ).map(
-              ([category, amount]) => {
-
-                const percentage =
-                  monthlySummary.totalSpent > 0
-
-                    ? (
-                        Number(amount) /
-                        Number(
-                          monthlySummary.totalSpent
-                        )
-                      ) * 100
-
-                    : 0;
-
-
-                return (
-
-                  <div
-                    className="analytics-item"
-                    key={category}
-                  >
-
-                    <div>
-
-                      <strong>
-                        {category}
-                      </strong>
-
-                      <p>
-
-                        ₹
-                        {Number(
-                          amount
-                        ).toFixed(2)}
-
-                        {" · "}
+                      <span>
 
                         {percentage.toFixed(1)}%
+                        {" "}of monthly spending
 
-                      </p>
+                      </span>
 
                     </div>
 
+                  );
+
+                }
+              )}
+
+            </div>
+
+          </section>
+
+          <section className="analytics-section chart-section">
+
+            <div className="chart-header">
+
+              <div>
+
+                <span className="section-label">
+                  YEARLY OVERVIEW
+                </span>
+
+                <h3>
+                  Yearly Spending Trend
+                </h3>
+
+              </div>
+
+              <span className="chart-year">
+
+                {year}
+
+              </span>
+
+            </div>
+
+            <div className="yearly-chart">
+
+              {monthlyData.map(
+                ([monthName, amount]) => {
+
+                  const value =
+                    Number(amount);
+
+                  const height =
+                    (value / maxMonthlyAmount) *
+                    100;
+
+                  return (
 
                     <div
-                      className="analytics-progress-container"
+                      className="chart-bar-column"
+                      key={monthName}
                     >
 
-                      <div
-                        className="analytics-progress-bar"
-                        style={{
-                          width:
-                            `${Math.min(
-                              percentage,
-                              100
-                            )}%`
-                        }}
-                      />
+                      <div className="chart-value">
+
+                        ₹{value.toFixed(0)}
+
+                      </div>
+
+                      <div className="chart-bar-track">
+
+                        <div
+                          className="chart-bar"
+                          style={{
+                            height:
+                              `${height}%`
+                          }}
+                        />
+
+                      </div>
+
+                      <span>
+
+                        {monthName.substring(
+                          0,
+                          3
+                        )}
+
+                      </span>
 
                     </div>
 
-                  </div>
+                  );
 
-                );
+                }
+              )}
 
-              }
-            )}
+            </div>
 
-          </div>
+          </section>
 
+          <section className="analytics-section">
 
-          {/* YEARLY MONTH ANALYSIS */}
+            <h3>
+              Yearly Summary
+            </h3>
 
-          <h3>
-            📈 Yearly Spending Trend
-          </h3>
+            <div className="analytics-insights-grid yearly-summary-cards">
 
+              <div className="insight-card">
 
-          <div className="analytics-list">
+                <span>
+                  Total Spending
+                </span>
 
-            {Object.entries(
-              yearlySummary.monthlySpending
-            ).map(
-              ([monthName, amount]) => {
+                <strong>
 
-                const percentage =
-                  yearlySummary.totalSpent > 0
+                  ₹
+                  {Number(
+                    yearlySummary.totalSpent
+                  ).toFixed(2)}
 
-                    ? (
-                        Number(amount) /
-                        Number(
-                          yearlySummary.totalSpent
-                        )
-                      ) * 100
+                </strong>
 
-                    : 0;
+              </div>
 
+              <div className="insight-card">
 
-                return (
+                <span>
+                  Transactions
+                </span>
 
-                  <div
-                    className="analytics-item"
-                    key={monthName}
-                  >
+                <strong>
 
-                    <div>
+                  {yearlySummary.totalTransactions}
 
-                      <strong>
-                        {monthName}
-                      </strong>
+                </strong>
 
-                      <p>
+              </div>
 
-                        ₹
-                        {Number(
-                          amount
-                        ).toFixed(2)}
+              <div className="insight-card">
 
-                      </p>
+                <span>
+                  Average Monthly
+                </span>
 
-                    </div>
+                <strong>
 
+                  ₹
+                  {Number(
+                    yearlySummary.averageMonthlyExpense
+                  ).toFixed(2)}
 
-                    <div
-                      className="analytics-progress-container"
-                    >
+                </strong>
 
-                      <div
-                        className="analytics-progress-bar"
-                        style={{
-                          width:
-                            `${Math.min(
-                              percentage,
-                              100
-                            )}%`
-                        }}
-                      />
+              </div>
 
-                    </div>
+            </div>
 
-                  </div>
-
-                );
-
-              }
-            )}
-
-          </div>
-
+          </section>
 
         </>
 
@@ -504,6 +553,5 @@ function AnalyticsDashboard() {
   );
 
 }
-
 
 export default AnalyticsDashboard;

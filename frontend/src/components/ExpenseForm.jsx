@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import {
   createExpense,
   updateExpense
@@ -87,8 +88,6 @@ function ExpenseForm({
 
       clearSelection();
 
-      // Refresh expense list
-      // and budget summary
       onSuccess();
 
     } catch (error) {
@@ -107,148 +106,200 @@ function ExpenseForm({
 
   return (
 
-    <div className="card">
+    <div className="card expense-form-card">
 
-      <h2>
-        {selectedExpense
-          ? "Edit Expense"
-          : "Add New Expense"}
-      </h2>
+      <div className="section-header">
 
-      <form onSubmit={handleSubmit}>
+        <div>
 
-        <input
-          type="text"
-          name="title"
-          placeholder="Expense title"
-          value={expense.title}
-          onChange={handleChange}
-          required
-        />
+          <span className="section-label">
+            EXPENSE MANAGEMENT
+          </span>
 
-        <input
-          type="number"
-          name="amount"
-          placeholder="Amount"
-          value={expense.amount}
-          onChange={handleChange}
-          min="0.01"
-          step="0.01"
-          required
-        />
+          <h2>
+            {selectedExpense
+              ? "Edit Expense"
+              : "Add New Expense"}
+          </h2>
 
-        <select
-          name="category"
-          value={expense.category}
-          onChange={handleChange}
-        >
+          <p>
+            Track and organize your daily spending.
+          </p>
 
-          <option value="Food">
-            Food
-          </option>
+        </div>
 
-          <option value="Travel">
-            Travel
-          </option>
+      </div>
 
-          <option value="Shopping">
-            Shopping
-          </option>
+      <form
+        className="expense-form"
+        onSubmit={handleSubmit}
+      >
 
-          <option value="Rent">
-            Rent
-          </option>
+        <div className="form-grid two-columns">
 
-          <option value="Entertainment">
-            Entertainment
-          </option>
+          <div className="form-group">
 
-          <option value="Bills">
-            Bills
-          </option>
+            <label>
+              Expense Title
+            </label>
 
-          <option value="Health">
-            Health
-          </option>
+            <input
+              type="text"
+              name="title"
+              placeholder="Example: Dinner"
+              value={expense.title}
+              onChange={handleChange}
+              required
+            />
 
-          <option value="Other">
-            Other
-          </option>
+          </div>
 
-        </select>
+          <div className="form-group">
 
-        <select
-          name="currency"
-          value={expense.currency}
-          onChange={handleChange}
-        >
+            <label>
+              Amount
+            </label>
 
-          <option value="INR">
-            INR ₹
-          </option>
+            <input
+              type="number"
+              name="amount"
+              placeholder="0.00"
+              value={expense.amount}
+              onChange={handleChange}
+              min="0.01"
+              step="0.01"
+              required
+            />
 
-          <option value="USD">
-            USD $
-          </option>
+          </div>
 
-          <option value="EUR">
-            EUR €
-          </option>
+          <div className="form-group">
 
-        </select>
+            <label>
+              Category
+            </label>
 
-        <input
-          type="date"
-          name="date"
-          value={expense.date}
-          onChange={handleChange}
-          required
-        />
+            <select
+              name="category"
+              value={expense.category}
+              onChange={handleChange}
+            >
 
-        <textarea
-          name="description"
-          placeholder="Description (optional)"
-          value={expense.description}
-          onChange={handleChange}
-        />
+              <option value="Food">🍔 Food</option>
+              <option value="Travel">✈️ Travel</option>
+              <option value="Shopping">🛍️ Shopping</option>
+              <option value="Rent">🏠 Rent</option>
+              <option value="Entertainment">🎬 Entertainment</option>
+              <option value="Bills">📄 Bills</option>
+              <option value="Health">❤️ Health</option>
+              <option value="Other">📦 Other</option>
 
-        <button
-          type="submit"
-          disabled={loading}
-        >
+            </select>
 
-          {loading
-            ? "Saving..."
-            : selectedExpense
-            ? "Update Expense"
-            : "Add Expense"}
+          </div>
 
-        </button>
+          <div className="form-group">
 
-        {selectedExpense && (
+            <label>
+              Currency
+            </label>
+
+            <select
+              name="currency"
+              value={expense.currency}
+              onChange={handleChange}
+            >
+
+              <option value="INR">INR ₹</option>
+              <option value="USD">USD $</option>
+              <option value="EUR">EUR €</option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+        <div className="form-grid date-description-grid">
+
+          <div className="form-group">
+
+            <label>
+              Date
+            </label>
+
+            <input
+              type="date"
+              name="date"
+              value={expense.date}
+              onChange={handleChange}
+              required
+            />
+
+          </div>
+
+          <div className="form-group">
+
+            <label>
+              Description
+            </label>
+
+            <input
+              type="text"
+              name="description"
+              placeholder="Optional note about this expense"
+              value={expense.description}
+              onChange={handleChange}
+            />
+
+          </div>
+
+        </div>
+
+        <div className="form-actions">
 
           <button
-            type="button"
-            onClick={() => {
-
-              setExpense(initialForm);
-
-              clearSelection();
-
-            }}
+            className="primary-button"
+            type="submit"
+            disabled={loading}
           >
 
-            Cancel Edit
+            {loading
+              ? "Saving..."
+              : selectedExpense
+              ? "Update Expense"
+              : "+ Add Expense"}
 
           </button>
 
-        )}
+          {selectedExpense && (
+
+            <button
+              className="secondary-button"
+              type="button"
+              onClick={() => {
+
+                setExpense(initialForm);
+
+                clearSelection();
+
+              }}
+            >
+
+              Cancel
+
+            </button>
+
+          )}
+
+        </div>
 
       </form>
 
     </div>
 
   );
+
 }
 
 export default ExpenseForm;

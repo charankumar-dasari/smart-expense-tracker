@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { getMembers } from "../services/memberService";
+import {
+  getMembers
+} from "../services/memberService";
 
 import {
   createSharedBill,
@@ -22,6 +24,7 @@ function SharedBillForm({
 }) {
 
   const [members, setMembers] = useState([]);
+
   const [formData, setFormData] =
     useState(initialForm);
 
@@ -62,7 +65,6 @@ function SharedBillForm({
 
   }, [selectedBill]);
 
-
   const loadMembers = async () => {
 
     try {
@@ -80,11 +82,9 @@ function SharedBillForm({
 
   };
 
-
   const handleChange = (e) => {
 
-    const { name, value } =
-      e.target;
+    const { name, value } = e.target;
 
     setFormData((previous) => ({
       ...previous,
@@ -92,7 +92,6 @@ function SharedBillForm({
     }));
 
   };
-
 
   const handleParticipantChange =
     (memberId) => {
@@ -117,18 +116,36 @@ function SharedBillForm({
         }
 
         return {
+
           ...previous,
 
           participantIds: [
             ...previous.participantIds,
             memberId
           ]
+
         };
 
       });
 
     };
 
+  const getInitial = (name) => {
+
+    return name
+      ? name.charAt(0).toUpperCase()
+      : "?";
+
+  };
+
+  const amountPerPerson =
+    formData.participantIds.length > 0 &&
+    Number(formData.amount) > 0
+
+      ? Number(formData.amount) /
+        formData.participantIds.length
+
+      : 0;
 
   const handleSubmit = async (e) => {
 
@@ -147,9 +164,7 @@ function SharedBillForm({
       Number(formData.amount) <= 0
     ) {
 
-      alert(
-        "Please enter a valid amount"
-      );
+      alert("Please enter a valid amount");
 
       return;
 
@@ -157,9 +172,7 @@ function SharedBillForm({
 
     if (!formData.paidByMemberId) {
 
-      alert(
-        "Please select who paid"
-      );
+      alert("Please select who paid");
 
       return;
 
@@ -169,14 +182,11 @@ function SharedBillForm({
       formData.participantIds.length === 0
     ) {
 
-      alert(
-        "Select at least one participant"
-      );
+      alert("Select at least one participant");
 
       return;
 
     }
-
 
     const billData = {
 
@@ -190,15 +200,12 @@ function SharedBillForm({
         formData.date,
 
       paidByMemberId:
-        Number(
-          formData.paidByMemberId
-        ),
+        Number(formData.paidByMemberId),
 
       participantIds:
         formData.participantIds
 
     };
-
 
     try {
 
@@ -227,7 +234,6 @@ function SharedBillForm({
 
       }
 
-
       setFormData(initialForm);
 
       clearSelection();
@@ -251,7 +257,6 @@ function SharedBillForm({
 
   };
 
-
   const handleCancelEdit = () => {
 
     setFormData(initialForm);
@@ -260,81 +265,140 @@ function SharedBillForm({
 
   };
 
-
   return (
 
-    <div className="card">
+    <div className="card shared-bill-card">
 
-      <h2>
+      <div className="section-header">
 
-        {selectedBill
-          ? "✏️ Edit Shared Bill"
-          : "🧾 Create Shared Bill"}
+        <div>
 
-      </h2>
+          <span className="section-label">
+            BILL MANAGEMENT
+          </span>
 
+          <h2>
+            {selectedBill
+              ? "Edit Shared Bill"
+              : "Create Shared Bill"}
+          </h2>
+
+          <p>
+            Split expenses fairly between your members.
+          </p>
+
+        </div>
+
+      </div>
 
       {members.length === 0 ? (
 
-        <p>
-          Please add members first.
-        </p>
+        <div className="premium-empty-state">
+
+          <div className="empty-icon">
+            👥
+          </div>
+
+          <h3>
+            No members available
+          </h3>
+
+          <p>
+            Add members before creating
+            a shared bill.
+          </p>
+
+        </div>
 
       ) : (
 
-        <form onSubmit={handleSubmit}>
+        <form
+          className="shared-bill-form"
+          onSubmit={handleSubmit}
+        >
 
+          <div className="shared-section">
 
-          <input
-            type="text"
-            name="title"
-            placeholder="Bill title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
+            <h3>
+              Bill Details
+            </h3>
 
+            <div className="form-grid three-columns">
 
-          <input
-            type="number"
-            name="amount"
-            placeholder="Bill amount"
-            value={formData.amount}
-            onChange={handleChange}
-            min="0.01"
-            step="0.01"
-            required
-          />
+              <div className="form-group">
 
+                <label>
+                  Bill Title
+                </label>
 
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-          />
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Example: Dinner"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                />
 
+              </div>
 
-          <h3>
-            Who Paid?
-          </h3>
+              <div className="form-group">
 
+                <label>
+                  Total Amount
+                </label>
 
-          <select
-            name="paidByMemberId"
-            value={
-              formData.paidByMemberId
-            }
-            onChange={handleChange}
-          >
+                <input
+                  type="number"
+                  name="amount"
+                  placeholder="0.00"
+                  value={formData.amount}
+                  onChange={handleChange}
+                  min="0.01"
+                  step="0.01"
+                  required
+                />
 
-            <option value="">
-              Select Member
-            </option>
+              </div>
 
-            {members.map(
-              (member) => (
+              <div className="form-group">
+
+                <label>
+                  Bill Date
+                </label>
+
+                <input
+                  type="date"
+                  name="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  required
+                />
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="shared-section">
+
+            <h3>
+              Who Paid?
+            </h3>
+
+            <select
+              className="payer-select"
+              name="paidByMemberId"
+              value={formData.paidByMemberId}
+              onChange={handleChange}
+            >
+
+              <option value="">
+                Select the person who paid
+              </option>
+
+              {members.map((member) => (
 
                 <option
                   key={member.id}
@@ -345,79 +409,190 @@ function SharedBillForm({
 
                 </option>
 
-              )
-            )}
+              ))}
 
-          </select>
+            </select>
 
+          </div>
 
-          <h3>
-            Select Participants
-          </h3>
+          <div className="shared-section">
 
+            <div className="participant-heading">
 
-          <div className="participant-list">
+              <div>
 
-            {members.map(
-              (member) => (
+                <h3>
+                  Select Participants
+                </h3>
 
-                <label
-                  key={member.id}
-                  className="participant-item"
-                >
+                <p>
+                  Choose everyone included in this bill.
+                </p>
 
-                  <input
-                    type="checkbox"
+              </div>
 
-                    checked={
-                      formData.participantIds.includes(
-                        member.id
-                      )
+              <span className="participant-count">
+
+                {formData.participantIds.length}
+                {" "}selected
+
+              </span>
+
+            </div>
+
+            <div className="participant-card-grid">
+
+              {members.map((member) => {
+
+                const selected =
+                  formData.participantIds.includes(
+                    member.id
+                  );
+
+                return (
+
+                  <button
+                    type="button"
+                    key={member.id}
+                    className={
+                      `participant-card ${
+                        selected
+                          ? "selected"
+                          : ""
+                      }`
                     }
-
-                    onChange={() =>
+                    onClick={() =>
                       handleParticipantChange(
                         member.id
                       )
                     }
-                  />
+                  >
 
-                  {member.name}
+                    <span className="participant-avatar">
 
-                </label>
+                      {getInitial(member.name)}
 
-              )
-            )}
+                    </span>
+
+                    <span className="participant-name">
+
+                      {member.name}
+
+                    </span>
+
+                    <span className="participant-check">
+
+                      {selected ? "✓" : "+"}
+
+                    </span>
+
+                  </button>
+
+                );
+
+              })}
+
+            </div>
 
           </div>
 
+          <div className="split-preview">
 
-          <button
-            type="submit"
-            disabled={loading}
-          >
+            <div className="split-preview-header">
 
-            {loading
-              ? "Saving..."
-              : selectedBill
-              ? "Update Shared Bill"
-              : "Create Shared Bill"}
+              <h3>
+                Split Preview
+              </h3>
 
-          </button>
+              <span>
+                Live calculation
+              </span>
 
+            </div>
 
-          {selectedBill && (
+            <div className="split-preview-grid">
+
+              <div>
+
+                <span>
+                  Total Bill
+                </span>
+
+                <strong>
+
+                  ₹
+                  {Number(
+                    formData.amount || 0
+                  ).toFixed(2)}
+
+                </strong>
+
+              </div>
+
+              <div>
+
+                <span>
+                  Participants
+                </span>
+
+                <strong>
+
+                  {formData.participantIds.length}
+
+                </strong>
+
+              </div>
+
+              <div className="split-highlight">
+
+                <span>
+                  Each Person Pays
+                </span>
+
+                <strong>
+
+                  ₹
+                  {amountPerPerson.toFixed(2)}
+
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="form-actions">
 
             <button
-              type="button"
-              onClick={handleCancelEdit}
+              className="primary-button"
+              type="submit"
+              disabled={loading}
             >
 
-              Cancel Edit
+              {loading
+                ? "Saving..."
+                : selectedBill
+                ? "Update Shared Bill"
+                : "Create Shared Bill"}
 
             </button>
 
-          )}
+            {selectedBill && (
+
+              <button
+                className="secondary-button"
+                type="button"
+                onClick={handleCancelEdit}
+              >
+
+                Cancel
+
+              </button>
+
+            )}
+
+          </div>
 
         </form>
 

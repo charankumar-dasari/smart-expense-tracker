@@ -25,18 +25,10 @@ function BudgetTracker({ refreshKey }) {
     useState(false);
 
   const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
+    "January", "February", "March",
+    "April", "May", "June",
+    "July", "August", "September",
+    "October", "November", "December"
   ];
 
   const loadSummary = async () => {
@@ -46,10 +38,7 @@ function BudgetTracker({ refreshKey }) {
       setLoading(true);
 
       const response =
-        await getBudgetSummary(
-          month,
-          year
-        );
+        await getBudgetSummary(month, year);
 
       setSummary(response.data);
 
@@ -59,7 +48,6 @@ function BudgetTracker({ refreshKey }) {
 
     } catch (error) {
 
-      // No budget available for this month
       setSummary(null);
 
     } finally {
@@ -117,9 +105,7 @@ function BudgetTracker({ refreshKey }) {
 
       console.error(error);
 
-      alert(
-        "Failed to save budget"
-      );
+      alert("Failed to save budget");
 
     } finally {
 
@@ -131,11 +117,7 @@ function BudgetTracker({ refreshKey }) {
 
   const getStatusClass = () => {
 
-    if (!summary) {
-
-      return "";
-
-    }
+    if (!summary) return "";
 
     return summary.status.toLowerCase();
 
@@ -143,17 +125,39 @@ function BudgetTracker({ refreshKey }) {
 
   return (
 
-    <div className="card budget-card">
+    <div className="budget-tracker">
 
-      <h2>
-        📊 Budget Tracking
-      </h2>
+      <div className="section-header">
 
-      <form onSubmit={handleSubmit}>
+        <div>
 
-        <div className="budget-inputs">
+          <span className="section-label">
+            FINANCIAL PLANNING
+          </span>
 
-          {/* Month */}
+          <h2>
+            Budget Management
+          </h2>
+
+          <p>
+            Plan your spending and stay in
+            control of your finances.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div className="card budget-card">
+
+        <h3>
+          Monthly Budget
+        </h3>
+
+        <form
+          className="budget-form"
+          onSubmit={handleSubmit}
+        >
 
           <select
             value={month}
@@ -181,24 +185,20 @@ function BudgetTracker({ refreshKey }) {
 
           </select>
 
-          {/* Year */}
-
           <input
             type="number"
             value={year}
+            min="2020"
             onChange={(e) =>
               setYear(
                 Number(e.target.value)
               )
             }
-            min="2020"
           />
-
-          {/* Budget Amount */}
 
           <input
             type="number"
-            placeholder="Monthly Budget"
+            placeholder="Enter monthly budget"
             value={amount}
             onChange={(e) =>
               setAmount(e.target.value)
@@ -206,110 +206,121 @@ function BudgetTracker({ refreshKey }) {
             min="1"
           />
 
-        </div>
+          <button
+            className="primary-button"
+            type="submit"
+            disabled={loading}
+          >
 
-        <button
-          type="submit"
-          disabled={loading}
-        >
+            {loading
+              ? "Saving..."
+              : "Save Budget"}
 
-          {loading
-            ? "Saving..."
-            : "Save Budget"}
+          </button>
 
-        </button>
+        </form>
 
-      </form>
-
-      {/* Budget Summary */}
+      </div>
 
       {summary && (
 
-        <div className="budget-summary">
+        <div className="budget-overview-grid">
 
-          <div className="summary-grid">
+          <div className="summary-item">
 
-            {/* Monthly Budget */}
+            <span>
+              Monthly Budget
+            </span>
 
-            <div className="summary-item">
+            <strong>
 
-              <span>
-                Monthly Budget
-              </span>
+              ₹
+              {summary.budgetAmount.toFixed(2)}
 
-              <strong>
-                ₹
-                {summary.budgetAmount.toFixed(2)}
-              </strong>
-
-            </div>
-
-            {/* Total Spent */}
-
-            <div className="summary-item">
-
-              <span>
-                Total Spent
-              </span>
-
-              <strong>
-                ₹
-                {summary.totalSpent.toFixed(2)}
-              </strong>
-
-            </div>
-
-            {/* Remaining */}
-
-            <div className="summary-item">
-
-              <span>
-                Remaining
-              </span>
-
-              <strong>
-                ₹
-                {summary.remainingAmount.toFixed(2)}
-              </strong>
-
-            </div>
-
-            {/* Usage */}
-
-            <div className="summary-item">
-
-              <span>
-                Usage
-              </span>
-
-              <strong>
-                {summary.usagePercentage.toFixed(1)}
-                %
-              </strong>
-
-            </div>
+            </strong>
 
           </div>
 
-          {/* Progress Bar */}
+          <div className="summary-item">
+
+            <span>
+              Total Spent
+            </span>
+
+            <strong>
+
+              ₹
+              {summary.totalSpent.toFixed(2)}
+
+            </strong>
+
+          </div>
+
+          <div className="summary-item">
+
+            <span>
+              Remaining
+            </span>
+
+            <strong>
+
+              ₹
+              {summary.remainingAmount.toFixed(2)}
+
+            </strong>
+
+          </div>
+
+          <div className="summary-item">
+
+            <span>
+              Usage
+            </span>
+
+            <strong>
+
+              {summary.usagePercentage.toFixed(1)}%
+
+            </strong>
+
+          </div>
+
+        </div>
+
+      )}
+
+      {summary && (
+
+        <div className="card budget-progress-card">
+
+          <div className="budget-progress-header">
+
+            <span>
+              Budget Usage
+            </span>
+
+            <strong>
+
+              {summary.usagePercentage.toFixed(1)}%
+
+            </strong>
+
+          </div>
 
           <div className="progress-container">
 
             <div
               className="progress-bar"
               style={{
-
-                width: `${Math.min(
-                  summary.usagePercentage,
-                  100
-                )}%`
-
+                width:
+                  `${Math.min(
+                    summary.usagePercentage,
+                    100
+                  )}%`
               }}
             />
 
           </div>
-
-          {/* Status */}
 
           <div
             className={
@@ -325,22 +336,31 @@ function BudgetTracker({ refreshKey }) {
 
       )}
 
-      {/* No Budget */}
-
       {!summary && !loading && (
 
-        <p className="no-budget">
+        <div className="premium-empty-state">
 
-          No budget has been created for this month.
-          Set your monthly budget above.
+          <div className="empty-icon">
+            📊
+          </div>
 
-        </p>
+          <h3>
+            No budget created
+          </h3>
+
+          <p>
+            Set a monthly budget to start
+            tracking your spending.
+          </p>
+
+        </div>
 
       )}
 
     </div>
 
   );
+
 }
 
 export default BudgetTracker;

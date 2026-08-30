@@ -1,35 +1,29 @@
-# Smart Expense Tracker & Bill Splitting System
+# Smart Expense Tracker
 
-A full-stack web application for managing personal expenses, tracking monthly budgets, splitting bills with friends, calculating settlements, managing recurring expenses, and analyzing spending patterns.
+A full-stack web application built to help users manage daily expenses, plan monthly budgets, organize shared bills, and understand spending patterns through monthly and yearly reports.
 
-The project is being developed incrementally using a module-based development process. Each module is implemented, tested, documented, and committed before moving to the next feature.
+The project was developed feature by feature using a modular approach. Each feature was implemented by connecting a React frontend with Spring Boot REST APIs and a MySQL database.
 
 ---
 
-## Project Status
+## Project Overview
 
-### Completed Features
+Managing personal expenses manually can make it difficult to understand where money is being spent and how much is remaining from a monthly budget.
 
-* Expense Management
-* Budget Tracking
-* Member Management
-* Shared Bill Management
-* Bill Splitting
-* Who Owes Whom Calculation
-* Recurring Expense Management
-* Monthly Summary
-* Yearly Summary
-* Reports and Analytics
+Smart Expense Tracker provides a single application where users can:
 
-### Currently Being Added
+- Record and manage daily expenses
+- Search and filter expenses
+- Set monthly budgets
+- Track budget usage
+- Manage members for shared expenses
+- Create and split shared bills
+- View monthly spending summaries
+- View yearly spending summaries
+- Analyze spending patterns
+- Export expense information as a PDF report
 
-* PDF Expense Report Export
-
-### Remaining Work
-
-* Final UI improvements
-* Complete end-to-end testing
-* Deployment
+The application is designed as a full-stack project using Java, Spring Boot, React, REST APIs, and MySQL.
 
 ---
 
@@ -37,128 +31,130 @@ The project is being developed incrementally using a module-based development pr
 
 ## 1. Expense Management
 
+The Expense Management module allows users to manage their daily financial transactions.
+
 Users can:
 
-* Add a new expense
-* View all expenses
-* Update an existing expense
-* Delete an expense
-* Add expense title and description
-* Enter expense amount
-* Select expense category
-* Select currency
-* Select expense date
-* Search expenses by title
-* Filter expenses by category
-* Validate expense input data
+- Add a new expense
+- View all expenses
+- Edit an existing expense
+- Delete an expense
+- Add an expense title
+- Add an expense description
+- Enter the expense amount
+- Select an expense category
+- Select a currency
+- Select the expense date
+- Search expenses by title
+- Filter expenses by category
 
 ### Supported Categories
 
-* Food
-* Travel
-* Shopping
-* Rent
-* Entertainment
-* Bills
-* Health
-* Other
+- Food
+- Travel
+- Shopping
+- Rent
+- Entertainment
+- Bills
+- Health
+- Other
 
 ### Supported Currencies
 
-* INR
-* USD
-* EUR
+- INR
+- USD
+- EUR
 
 ---
 
 ## 2. Budget Tracking
 
-Users can:
+The Budget Tracking module helps users plan their monthly spending.
 
-* Set a monthly budget
-* Update an existing budget
-* View monthly budget amount
-* View total spending
-* View remaining budget
-* View budget usage percentage
-* Check current budget status
+Users can select a month and year and create or update a monthly budget.
 
-The budget information automatically updates when expenses are added or modified.
+The module displays:
+
+- Monthly budget amount
+- Total amount spent
+- Remaining budget
+- Budget usage percentage
+- Current budget status
+
+The budget summary is updated based on the expense data for the selected month.
 
 ---
 
 ## 3. Member Management
 
-Users can manage members who participate in shared expenses.
+The Member Management module is used to manage people who participate in shared expenses.
 
-Features include:
+Users can:
 
-* Add a member
-* View all members
-* Update member details
-* Delete a member
+- Add a new member
+- View all members
+- Remove a member
 
-This module is used by the shared bill and bill splitting features.
+Each member can be used when creating and splitting shared bills.
 
 ---
 
 ## 4. Shared Bill Management
 
-Users can create and manage shared bills.
+The Shared Bill module allows users to create expenses that are shared between multiple people.
 
 A shared bill can include:
 
-* Bill title
-* Total amount
-* Description
-* Date
-* Participating members
+- Bill title
+- Total amount
+- Bill date
+- Person who paid the bill
+- Participating members
 
-Users can also update and delete shared bills.
+The application calculates how the bill should be divided among the selected participants.
 
 ---
 
 ## 5. Bill Splitting
 
-The application supports splitting shared bills between multiple members.
+The Bill Splitting feature divides the total amount of a shared bill between selected members.
 
-The system can:
+The application calculates:
 
-* Add members to a shared bill
-* Calculate individual shares
-* Store member participation
-* Manage bill split information
+- Total bill amount
+- Number of participants
+- Amount per participant
 
-This helps users track shared expenses between friends, roommates, or groups.
+This makes it easier to manage expenses shared between friends, roommates, or groups.
 
 ---
 
-## 6. Who Owes Whom Calculation
+## 6. Settlement Calculation
 
-The application calculates settlements between members.
+The application includes functionality to help determine settlement information between members.
 
-The system helps determine:
+The system can be used to understand:
 
-* Who paid money
-* Who owes money
-* How much each member owes
-* Settlement information between members
-
-This feature simplifies shared expense calculations.
+- Who paid for a shared expense
+- Which members participated
+- How much each participant should contribute
+- Settlement information between members
 
 ---
 
 ## 7. Recurring Expense Management
 
-Recurring expenses can be managed for regular payments such as:
+The application includes support for managing recurring expenses.
 
-* Rent
-* Subscription payments
-* Utility bills
-* Insurance payments
-* Monthly services
+Recurring expenses can represent regular payments such as:
 
-Users can manage recurring expense details and track regular spending.
+- Rent
+- Utility bills
+- Subscription payments
+- Insurance payments
+- Other regular expenses
+
+This feature helps organize expenses that occur repeatedly.
 
 ---
 
@@ -166,72 +162,70 @@ Users can manage recurring expense details and track regular spending.
 
 The Monthly Summary module provides an overview of spending for a selected month.
 
-It displays:
-
-* Total amount spent
-* Total number of transactions
-* Average expense amount
-* Category-wise spending
-
 Users can select:
 
-* Month
-* Year
+- Month
+- Year
 
-The system calculates the summary using expense data stored in the MySQL database.
+The summary displays:
+
+- Total amount spent
+- Total number of transactions
+- Average expense amount
+- Category-wise spending
+
+The information is calculated from expense data stored in the database.
 
 ---
 
 ## 9. Yearly Summary
 
-The Yearly Summary module provides an overview of expenses for an entire year.
+The Yearly Summary module provides an overview of spending for an entire year.
 
-It displays:
+The module displays:
 
-* Total yearly spending
-* Total transactions
-* Average monthly expense
-* Month-wise spending from January to December
+- Total yearly spending
+- Total number of transactions
+- Average monthly expense
+- Month-wise spending
 
-The system also displays months with zero spending.
+The application can display spending information from January through December.
 
 ---
 
 ## 10. Reports and Analytics
 
-The Reports and Analytics dashboard provides insights into spending patterns.
+The Reports and Analytics module provides a detailed view of spending patterns.
 
-Features include:
+The analytics section includes:
 
-* Category-wise spending analysis
-* Category spending percentage
-* Highest spending category
-* Highest category spending amount
-* Highest spending month
-* Highest monthly spending amount
-* Yearly spending trend
-* Month and year filters
-* Progress-based visual indicators
+- Category-wise spending analysis
+- Category spending percentage
+- Highest spending category
+- Highest category spending amount
+- Highest spending month
+- Highest monthly spending amount
+- Yearly spending trend
+- Month and year based analysis
 
-The analytics dashboard reuses the Monthly Summary and Yearly Summary APIs.
+This module helps users understand where most of their money is being spent.
 
 ---
 
-## 11. PDF Report Export
+## 11. PDF Expense Report
 
-PDF report export is currently being added.
+The application supports generating expense reports in PDF format.
 
-The report will include:
+The generated report can include:
 
-* Expense details
-* Expense title
-* Category
-* Currency
-* Amount
-* Date
-* Description
-* Total expense amount
-* Report generation date
+- Expense title
+- Category
+- Currency
+- Amount
+- Date
+- Description
+- Total expense amount
+- Report generation details
 
 The frontend uses `jsPDF` and `jspdf-autotable` for PDF generation.
 
@@ -241,29 +235,32 @@ The frontend uses `jsPDF` and `jspdf-autotable` for PDF generation.
 
 ## Backend
 
-* Java 17
-* Spring Boot
-* Spring Data JPA
-* Hibernate
-* MySQL
-* Maven
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- Hibernate
+- MySQL
+- Maven
 
 ## Frontend
 
-* React
-* Vite
-* Axios
-* CSS
-* jsPDF
-* jspdf-autotable
+- React
+- Vite
+- React Router
+- Axios
+- CSS
+- Recharts
+- jsPDF
+- jspdf-autotable
 
 ## Development Tools
 
-* IntelliJ IDEA / VS Code
-* MySQL Workbench
-* Postman
-* Git
-* GitHub
+- IntelliJ IDEA
+- Visual Studio Code
+- MySQL Workbench
+- Postman
+- Git
+- GitHub
 
 ---
 
@@ -271,225 +268,285 @@ The frontend uses `jsPDF` and `jspdf-autotable` for PDF generation.
 
 ```text
 smart-expense-tracker/
-
+│
 ├── backend/
-│
-│   └── src/main/java/
-│       └── com/expense/expensetracker/
-│
-│           ├── controller/
+│   │
+│   └── src/
+│       └── main/
+│           ├── java/
+│           │   └── com/
+│           │       └── expense/
+│           │           └── expensetracker/
+│           │               │
+│           │               ├── controller/
+│           │               ├── dto/
+│           │               ├── entity/
+│           │               ├── repository/
+│           │               └── service/
 │           │
-│           ├── dto/
-│           │
-│           ├── entity/
-│           │
-│           ├── repository/
-│           │
-│           └── service/
+│           └── resources/
+│               └── application.properties
 │
 ├── frontend/
-│
-│   └── src/
-│       │
-│       ├── components/
-│       │
-│       └── services/
+│   │
+│   ├── src/
+│   │   │
+│   │   ├── components/
+│   │   ├── services/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   │
+│   └── package.json
 │
 └── README.md
-```
+Application Flow
 
----
+The basic flow of the application is:
 
-# Current REST APIs
+React Frontend
+      │
+      ▼
+Axios HTTP Requests
+      │
+      ▼
+Spring Boot REST APIs
+      │
+      ▼
+Service Layer
+      │
+      ▼
+Spring Data JPA
+      │
+      ▼
+MySQL Database
 
-## Expense APIs
+The React frontend handles the user interface and sends requests to the backend.
 
-| Method | Endpoint                            | Description        |
-| ------ | ----------------------------------- | ------------------ |
-| POST   | `/api/expenses`                     | Create expense     |
-| GET    | `/api/expenses`                     | Get all expenses   |
-| GET    | `/api/expenses/{id}`                | Get expense by ID  |
-| PUT    | `/api/expenses/{id}`                | Update expense     |
-| DELETE | `/api/expenses/{id}`                | Delete expense     |
-| GET    | `/api/expenses/search?keyword=`     | Search expenses    |
-| GET    | `/api/expenses/category/{category}` | Filter by category |
+The Spring Boot application processes the requests and communicates with the MySQL database using Spring Data JPA and Hibernate.
 
----
+Main Modules
 
-## Monthly Summary API
+The project is organized around the following modules:
 
-| Method | Endpoint                                         | Description                 |
-| ------ | ------------------------------------------------ | --------------------------- |
-| GET    | `/api/summary/monthly?month={month}&year={year}` | Get monthly expense summary |
+Expense Management
+Budget Tracking
+Member Management
+Shared Bill Management
+Bill Splitting
+Settlement Calculation
+Recurring Expense Management
+Monthly Summary
+Yearly Summary
+Reports and Analytics
+PDF Report Generation
+REST APIs
+Expense APIs
+Method	Endpoint	Description
+POST	/api/expenses	Create a new expense
+GET	/api/expenses	Get all expenses
+GET	/api/expenses/{id}	Get an expense by ID
+PUT	/api/expenses/{id}	Update an expense
+DELETE	/api/expenses/{id}	Delete an expense
+GET	/api/expenses/search?keyword=	Search expenses
+GET	/api/expenses/category/{category}	Filter expenses by category
+Monthly Summary API
+Method	Endpoint	Description
+GET	/api/summary/monthly?month={month}&year={year}	Get monthly expense summary
 
 Example:
 
-```text
 GET /api/summary/monthly?month=8&year=2026
-```
-
----
-
-## Yearly Summary API
-
-| Method | Endpoint                          | Description                |
-| ------ | --------------------------------- | -------------------------- |
-| GET    | `/api/summary/yearly?year={year}` | Get yearly expense summary |
+Yearly Summary API
+Method	Endpoint	Description
+GET	/api/summary/yearly?year={year}	Get yearly expense summary
 
 Example:
 
-```text
 GET /api/summary/yearly?year=2026
-```
+Database
 
----
+The project uses MySQL as the primary database.
 
-# Database
+Example database name:
 
-Database Name:
-
-```text
 expense_tracker_db
-```
 
-The application stores data for:
+The database stores information related to:
 
-* Expenses
-* Budgets
-* Members
-* Shared bills
-* Bill splitting
-* Recurring expenses
+Expenses
+Monthly budgets
+Members
+Shared bills
+Bill participation and splitting
+Recurring expenses
 
-The database is managed using Spring Data JPA and Hibernate.
+Spring Data JPA and Hibernate are used to manage database operations.
 
----
+Running the Project Locally
+Prerequisites
 
-# How to Run the Backend
+Before running the project, make sure the following are installed:
 
-## 1. Create the MySQL Database
+Java 21
+MySQL
+Maven
+Node.js
+npm
+Backend Setup
+1. Create the Database
 
-```sql
+Create a MySQL database:
+
 CREATE DATABASE expense_tracker_db;
-```
+2. Configure Database Properties
 
-## 2. Configure Database Credentials
+Open:
 
-Update:
-
-```text
 backend/src/main/resources/application.properties
-```
 
-Add your MySQL configuration.
+Configure your MySQL database connection.
 
-## 3. Run the Backend
+Example:
 
-From the backend directory:
+spring.datasource.url=jdbc:mysql://localhost:3306/expense_tracker_db
+spring.datasource.username=your_username
+spring.datasource.password=your_password
 
-```bash
+Update the values according to your local MySQL configuration.
+
+3. Run the Backend
+
+Navigate to the backend directory and run:
+
 mvnw.cmd spring-boot:run
-```
 
 The Spring Boot application will run on:
 
-```text
 http://localhost:8080
-```
-
----
-
-# How to Run the Frontend
-
-Navigate to the frontend directory:
-
-```bash
+Frontend Setup
+1. Navigate to the Frontend Directory
 cd frontend
-```
-
-Install dependencies:
-
-```bash
+2. Install Dependencies
 npm install
-```
-
-Install PDF export dependencies:
-
-```bash
-npm install jspdf jspdf-autotable
-```
-
-Start the frontend:
-
-```bash
+3. Start the Frontend Application
 npm run dev
-```
 
-The React application normally runs on:
+The Vite development server will normally run on:
 
-```text
 http://localhost:5173
-```
+Frontend Dependencies
 
----
+The project uses the following main frontend libraries:
 
-# Development Process
+react
+react-dom
+react-router-dom
+axios
+recharts
+jspdf
+jspdf-autotable
 
-The project follows an incremental module-based development workflow.
+Axios is used for communication between the React frontend and Spring Boot backend.
 
-Each module is completed using the following process:
+Recharts is used for data visualization and analytics.
 
-1. Identify module requirements
-2. Plan the backend structure
-3. Create entities and database structure
-4. Implement repositories
-5. Implement service layer logic
-6. Create REST APIs
-7. Test backend functionality
-8. Build React components
-9. Integrate frontend and backend
-10. Test complete module functionality
-11. Update the README
-12. Commit the completed module
-13. Push changes to GitHub
+jsPDF and jspdf-autotable are used for generating PDF reports.
 
-This development approach helps keep the project organized and provides a clear Git history showing how features were developed incrementally.
+Development Approach
 
----
+The project was developed using a module-based approach.
 
-# Development Progress
+Instead of building the complete application at once, features were developed incrementally.
 
-* [x] Project Setup
-* [x] Expense Management
-* [x] Expense Search and Category Filter
-* [x] Budget Tracking
-* [x] Member Management
-* [x] Shared Bill Management
-* [x] Bill Splitting
-* [x] Who Owes Whom Calculation
-* [x] Recurring Expense Management
-* [x] Monthly Summary
-* [x] Yearly Summary
-* [x] Reports and Analytics
-* [x] PDF Report Export Implementation
-* [ ] Final UI Improvements
-* [ ] Complete End-to-End Testing
-* [ ] Deployment
+The general development process followed this pattern:
 
----
+Requirement
+    ↓
+Backend Design
+    ↓
+Database Entity
+    ↓
+Repository
+    ↓
+Service Layer
+    ↓
+REST API
+    ↓
+API Testing
+    ↓
+React Component
+    ↓
+Frontend Integration
+    ↓
+Feature Testing
+    ↓
+UI Improvements
 
-# Project Goal
+This approach helped keep the project organized and made it easier to develop and test individual modules.
 
-The goal of this project is to provide a practical personal finance management system that allows users to:
+Development Progress
+ Project Setup
+ Expense Management
+ Expense Search
+ Expense Category Filter
+ Budget Tracking
+ Member Management
+ Shared Bill Management
+ Bill Splitting
+ Settlement Calculation
+ Recurring Expense Management
+ Monthly Summary
+ Yearly Summary
+ Reports and Analytics
+ PDF Report Export
+ Responsive UI Improvements
+ Complete End-to-End Testing
+ Production Deployment
+Project Goal
 
-* Track daily expenses
-* Control monthly budgets
-* Manage recurring expenses
-* Split shared bills with friends
-* Calculate settlements between members
-* Analyze monthly spending
-* Analyze yearly spending
-* Identify spending patterns
-* Generate expense reports
+The goal of Smart Expense Tracker is to provide a practical application for managing both personal and shared expenses.
 
-The application demonstrates a full-stack architecture using Java, Spring Boot, React, REST APIs, and MySQL.
+The application helps users:
+
+Track daily spending
+Organize expenses by category
+Monitor monthly budgets
+Understand spending habits
+Manage shared expenses
+Split bills between members
+Review monthly financial activity
+Review yearly spending trends
+Generate expense reports
+
+The project also demonstrates the integration of a React frontend with a Spring Boot backend and MySQL database using REST APIs.
+
+Future Improvements
+
+Possible future improvements include:
+
+User authentication and authorization
+Individual user accounts
+JWT based security
+Expense notifications
+Budget limit alerts
+Advanced charts and dashboards
+Export reports in additional formats
+Mobile application support
+Cloud deployment
+Automated testing
+Improved error handling and validation
+Author
+
+Developed as a full-stack application using:
+
+Java | Spring Boot | React | MySQL | REST APIs
+
+Project Status
+
+The core features of the application have been implemented.
+
+The remaining work mainly includes:
+
+Final end-to-end testing
+Production deployment
+Additional UI refinements

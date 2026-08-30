@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 
 import {
@@ -33,14 +32,13 @@ function YearlySummary() {
 
 
         const response =
-          await getYearlySummary(
-            year
-          );
+          await getYearlySummary(year);
 
 
         setSummary(
           response.data
         );
+
 
       } catch (error) {
 
@@ -64,30 +62,79 @@ function YearlySummary() {
   }, [year]);
 
 
+  const getMonthData = () => {
+
+    if (!summary?.monthlySpending) {
+      return [];
+    }
+
+    return Object.entries(
+      summary.monthlySpending
+    );
+
+  };
+
+
+  const monthData =
+    getMonthData();
+
+
+  const maxAmount =
+    monthData.length > 0
+      ? Math.max(
+          ...monthData.map(
+            ([, amount]) =>
+              Number(amount)
+          )
+        )
+      : 0;
+
+
   return (
 
     <div className="card yearly-summary">
 
 
-      <h2>
-        📅 Yearly Summary
-      </h2>
+      {/* HEADER */}
+
+      <div className="section-header">
+
+        <div>
+
+          <span className="section-label">
+            FINANCIAL OVERVIEW
+          </span>
+
+          <h2>
+            📅 Yearly Summary
+          </h2>
+
+          <p className="section-description">
+            Review your overall spending
+            and yearly financial activity.
+          </p>
+
+        </div>
 
 
-      {/* YEAR SELECTOR */}
+        <div className="year-selector">
 
-      <div className="summary-filters">
+          <span>
+            Year
+          </span>
 
-        <input
-          type="number"
-          value={year}
-          min="2020"
-          onChange={(e) =>
-            setYear(
-              Number(e.target.value)
-            )
-          }
-        />
+          <input
+            type="number"
+            value={year}
+            min="2020"
+            onChange={(e) =>
+              setYear(
+                Number(e.target.value)
+              )
+            }
+          />
+
+        </div>
 
       </div>
 
@@ -96,9 +143,15 @@ function YearlySummary() {
 
       {loading && (
 
-        <p>
-          Loading yearly summary...
-        </p>
+        <div className="analytics-loading">
+
+          <div className="loading-spinner" />
+
+          <p>
+            Loading yearly summary...
+          </p>
+
+        </div>
 
       )}
 
@@ -110,64 +163,76 @@ function YearlySummary() {
         <>
 
 
-          <div className="summary-grid">
+          {/* TOP SUMMARY CARDS */}
+
+          <div className="yearly-summary-grid">
 
 
-            {/* TOTAL SPENT */}
+            <div className="yearly-stat-card">
 
-            <div className="summary-item">
+              <div className="stat-icon">
+                💰
+              </div>
 
-              <span>
-                💰 Total Yearly Spending
-              </span>
+              <div>
 
-              <strong>
+                <span>
+                  Total Yearly Spending
+                </span>
 
-                ₹
+                <strong>
+                  ₹
+                  {Number(
+                    summary.totalSpent
+                  ).toFixed(2)}
+                </strong>
 
-                {Number(
-                  summary.totalSpent
-                ).toFixed(2)}
-
-              </strong>
-
-            </div>
-
-
-            {/* TRANSACTIONS */}
-
-            <div className="summary-item">
-
-              <span>
-                🧾 Total Transactions
-              </span>
-
-              <strong>
-
-                {summary.totalTransactions}
-
-              </strong>
+              </div>
 
             </div>
 
 
-            {/* AVERAGE */}
+            <div className="yearly-stat-card">
 
-            <div className="summary-item">
+              <div className="stat-icon">
+                🧾
+              </div>
 
-              <span>
-                📊 Average Monthly Expense
-              </span>
+              <div>
 
-              <strong>
+                <span>
+                  Total Transactions
+                </span>
 
-                ₹
+                <strong>
+                  {summary.totalTransactions}
+                </strong>
 
-                {Number(
-                  summary.averageMonthlyExpense
-                ).toFixed(2)}
+              </div>
 
-              </strong>
+            </div>
+
+
+            <div className="yearly-stat-card">
+
+              <div className="stat-icon">
+                📊
+              </div>
+
+              <div>
+
+                <span>
+                  Average Monthly Expense
+                </span>
+
+                <strong>
+                  ₹
+                  {Number(
+                    summary.averageMonthlyExpense
+                  ).toFixed(2)}
+                </strong>
+
+              </div>
 
             </div>
 
@@ -175,54 +240,147 @@ function YearlySummary() {
           </div>
 
 
-          {/* MONTH-WISE SPENDING */}
+          {/* MONTHLY OVERVIEW */}
 
-          <h3>
-            📈 Month-wise Spending
-          </h3>
+          <div className="yearly-spending-section">
 
 
-          <div className="yearly-month-list">
+            <div className="section-title-row">
 
-            {Object.entries(
-              summary.monthlySpending
-            ).map(
+              <div>
 
-              ([month, amount]) => (
+                <span className="section-label">
+                  MONTHLY BREAKDOWN
+                </span>
 
-                <div
-                  className="yearly-month-item"
-                  key={month}
-                >
+                <h3>
+                  📈 Month-wise Spending
+                </h3>
 
-                  <span>
+              </div>
 
-                    {month}
-
-                  </span>
+            </div>
 
 
-                  <strong>
+            {monthData.length === 0 ? (
 
-                    ₹
+              <div className="premium-empty-state">
 
-                    {Number(
-                      amount
-                    ).toFixed(2)}
-
-                  </strong>
-
-
+                <div className="empty-icon">
+                  📊
                 </div>
 
-              )
+                <h3>
+                  No spending data found
+                </h3>
+
+                <p>
+                  Your monthly spending data
+                  will appear here.
+                </p>
+
+              </div>
+
+            ) : (
+
+              <div className="yearly-month-grid">
+
+                {monthData.map(
+                  ([monthName, amount]) => {
+
+                    const numericAmount =
+                      Number(amount);
+
+                    const percentage =
+                      maxAmount > 0
+                        ? (
+                            numericAmount /
+                            maxAmount
+                          ) * 100
+                        : 0;
+
+
+                    return (
+
+                      <div
+                        className="yearly-month-card"
+                        key={monthName}
+                      >
+
+
+                        <div className="yearly-month-top">
+
+                          <span className="month-name">
+
+                            {monthName.slice(
+                              0,
+                              3
+                            )}
+
+                          </span>
+
+
+                          <strong>
+
+                            ₹
+                            {numericAmount.toFixed(2)}
+
+                          </strong>
+
+                        </div>
+
+
+                        <div className="month-mini-bar">
+
+                          <div
+                            className="month-mini-bar-fill"
+                            style={{
+                              width:
+                                `${percentage}%`
+                            }}
+                          />
+
+                        </div>
+
+
+                      </div>
+
+                    );
+
+                  }
+                )}
+
+              </div>
 
             )}
+
 
           </div>
 
 
         </>
+
+      )}
+
+
+      {!loading && !summary && (
+
+        <div className="premium-empty-state">
+
+          <div className="empty-icon">
+            📅
+          </div>
+
+          <h3>
+            No yearly data available
+          </h3>
+
+          <p>
+            Start adding expenses to view
+            your yearly financial summary.
+          </p>
+
+        </div>
 
       )}
 
@@ -235,4 +393,3 @@ function YearlySummary() {
 
 
 export default YearlySummary;
-
