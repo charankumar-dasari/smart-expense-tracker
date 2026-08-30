@@ -1,0 +1,18 @@
+# Java
+target/
+*.class
+
+# React
+node_modules/
+dist/
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
