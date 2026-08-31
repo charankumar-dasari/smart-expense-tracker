@@ -212,24 +212,6 @@ This module helps users understand where most of their money is being spent.
 
 ---
 
-## 11. PDF Expense Report
-
-The application supports generating expense reports in PDF format.
-
-The generated report can include:
-
-- Expense title
-- Category
-- Currency
-- Amount
-- Date
-- Description
-- Total expense amount
-- Report generation details
-
-The frontend uses `jsPDF` and `jspdf-autotable` for PDF generation.
-
----
 
 # Technology Stack
 
