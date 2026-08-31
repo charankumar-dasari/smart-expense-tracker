@@ -14,9 +14,9 @@ function SharedBillList({
   onEdit
 }) {
 
-  /* =========================
+  /* 
      STATES
-  ========================= */
+   */
 
   const [bills, setBills] = useState([]);
 
@@ -37,9 +37,9 @@ function SharedBillList({
   ] = useState(null);
 
 
-  /* =========================
+  /* 
      LOAD SHARED BILLS
-  ========================= */
+   */
 
   const loadBills = async () => {
 
@@ -69,9 +69,9 @@ function SharedBillList({
   };
 
 
-  /* =========================
+  /* 
      AUTO REFRESH
-  ========================= */
+   */
 
   useEffect(() => {
 
@@ -80,9 +80,9 @@ function SharedBillList({
   }, [refreshKey]);
 
 
-  /* =========================
+  /* 
      VIEW SPLIT DETAILS
-  ========================= */
+ */
 
   const handleViewSplit =
     async (id) => {
@@ -113,9 +113,9 @@ function SharedBillList({
     };
 
 
-  /* =========================
+  /* 
      VIEW SETTLEMENTS
-  ========================= */
+   */
 
   const handleViewSettlements =
     async (id) => {
@@ -146,9 +146,9 @@ function SharedBillList({
     };
 
 
-  /* =========================
+  /* 
      DELETE SHARED BILL
-  ========================= */
+ */
 
   const handleDelete =
     async (id) => {
@@ -204,9 +204,9 @@ function SharedBillList({
     };
 
 
-  /* =========================
+  /* 
      LOADING UI
-  ========================= */
+ */
 
   if (loading) {
 
@@ -234,9 +234,7 @@ function SharedBillList({
     <div className="card">
 
 
-      {/* =========================
-          SHARED BILL LIST
-      ========================= */}
+      {/*  SHARED BILL LIST */}
 
       <h2>
         🧾 Shared Bills
@@ -262,9 +260,7 @@ function SharedBillList({
             >
 
 
-              {/* =========================
-                  BILL DETAILS
-              ========================= */}
+              {/*   BILL DETAILS */}
 
               <div className="bill-header">
 
@@ -334,9 +330,7 @@ function SharedBillList({
               </div>
 
 
-              {/* =========================
-                  BILL ACTIONS
-              ========================= */}
+              {/* BILL ACTIONS */}
 
               <div className="bill-actions">
 
@@ -412,9 +406,7 @@ function SharedBillList({
       )}
 
 
-      {/* =========================
-          SPLIT RESULT
-      ========================= */}
+      {/*  SPLIT RESULT */}
 
       {selectedSplit && (
 
@@ -486,9 +478,7 @@ function SharedBillList({
           </p>
 
 
-          {/* =========================
-              PARTICIPANT SPLIT
-          ========================= */}
+          {/*  PARTICIPANT SPLIT */}
 
           <div className="split-participants">
 
@@ -542,9 +532,7 @@ function SharedBillList({
                   </p>
 
 
-                  {/* =========================
-                      BALANCE STATUS
-                  ========================= */}
+                  {/*  BALANCE STATUS */}
 
                   {Number(
                     participant.amountOwed
@@ -616,9 +604,7 @@ function SharedBillList({
       )}
 
 
-      {/* =========================
-          SETTLEMENT RESULT
-      ========================= */}
+      {/*   SETTLEMENT RESULT */}
 
       {selectedSettlements.length > 0 && (
 
