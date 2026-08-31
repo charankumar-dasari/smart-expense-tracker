@@ -560,10 +560,7 @@ Developed as a full-stack application using
 
 Java | Spring Boot | React | MySQL | REST APIs
 
-Project Status
---------------
 
-The core features of the application have been implemented.
 
 The remaining work mainly includes:
 -----------------------------------
