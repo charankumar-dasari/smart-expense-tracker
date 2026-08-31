@@ -561,10 +561,3 @@ Developed as a full-stack application using
 Java | Spring Boot | React | MySQL | REST APIs
 
 
-
-The remaining work mainly includes:
------------------------------------
-
-Final end-to-end testing
-Production deployment
-Additional UI refinements
